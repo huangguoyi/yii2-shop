@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'auth_key',
             // 'password_hash',
             // 'password_reset_token',
-            // 'email:email',
+            'email:email',
             /*[
                 'attribute' => 'role',
                 'value' => function ($model) {
@@ -44,18 +44,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         ['class' => 'form-control', 'prompt' => Yii::t('app', 'Please Filter')]
                     )
             ],*/
-            // [
-            //     'attribute' => 'auth_role',
-            //     'value' => function ($model) {
-            //                 return $model->authRole ? $model->authRole->name : '-';
-            //             },
-            //     'filter' => Html::activeDropDownList(
-            //             $searchModel,
-            //             'auth_role',
-            //             1,// User::getArrayAuthRole(),
-            //             ['class' => 'form-control', 'prompt' => Yii::t('app', 'Please Filter')]
-            //         )
-            // ],
+            [
+                'attribute' => 'auth_role',
+                'value' => function ($model) {
+                            return $model->authRole ? $model->authRole->name : '-';
+                        },
+                'filter' => Html::activeDropDownList(
+                        $searchModel,
+                        'auth_role',
+                        User::getArrayAuthRole(),
+                        ['class' => 'form-control', 'prompt' => Yii::t('app', 'Please Filter')]
+                    )
+            ],
             [
                 'attribute' => 'status',
                 'format' => 'html',

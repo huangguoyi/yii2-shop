@@ -68,16 +68,16 @@ class User extends \common\models\User
         return $this->_roleLabel;
     }*/
 
-    // public static function getArrayAuthRole()
-    // {
-    //     return ArrayHelper::map(AuthRole::find()->all(), 'id', 'name');
-    // }
+    public static function getArrayAuthRole()
+    {
+        return ArrayHelper::map(AuthRole::find()->all(), 'id', 'name');
+    }
 
     public function getAuthRoleLabel()
     {
 
         if ($this->_authRoleLabel === null) {
-            $roles = 1;//self::getArrayAuthRole();
+            $roles = self::getArrayAuthRole();
             $this->_authRoleLabel = $this->auth_role ? $roles[$this->auth_role] : '-';
         }
         return $this->_authRoleLabel;
@@ -89,20 +89,20 @@ class User extends \common\models\User
     public function rules()
     {
         return [
-            [['username'], 'required', 'on' => ['admin-create', 'admin-update']],
+            [['username', 'email'], 'required', 'on' => ['admin-create', 'admin-update']],
             [['password', 'repassword'], 'required', 'on' => ['admin-create']],
             [['password', 'repassword', 'oldpassword'], 'required', 'on' => ['admin-change-password']],
-            [['username', 'password', 'repassword'], 'trim', 'on' => ['admin-create', 'admin-update']],
+            [['username', 'email', 'password', 'repassword'], 'trim', 'on' => ['admin-create', 'admin-update']],
             [['password', 'repassword'], 'string', 'min' => 6, 'max' => 30, 'on' => ['admin-create', 'admin-update']],
             [['password', 'repassword', 'oldpassword'], 'string', 'min' => 6, 'max' => 30, 'on' => ['admin-change-password']],
             // Unique
-            [['username'], 'unique', 'on' => ['admin-create', 'admin-update']],
+            [['username', 'email'], 'unique', 'on' => ['admin-create', 'admin-update']],
             // Username
             ['username', 'match', 'pattern' => '/^[a-zA-Z0-9_-]+$/', 'on' => ['admin-create', 'admin-update']],
             ['username', 'string', 'min' => 3, 'max' => 30, 'on' => ['admin-create', 'admin-update']],
             // E-mail
-            // ['email', 'string', 'max' => 100, 'on' => ['admin-create', 'admin-update']],
-            // ['email', 'email', 'on' => ['admin-create', 'admin-update']],
+            ['email', 'string', 'max' => 100, 'on' => ['admin-create', 'admin-update']],
+            ['email', 'email', 'on' => ['admin-create', 'admin-update']],
             // Repassword
             ['repassword', 'compare', 'compareAttribute' => 'password'],
             //['status', 'default', 'value' => self::STATUS_ACTIVE],
@@ -120,8 +120,8 @@ class User extends \common\models\User
     public function scenarios()
     {
         return [
-            'admin-create' => ['username', 'password', 'repassword', 'status'],
-            'admin-update' => ['username', 'password', 'repassword', 'status', 'auth_role'],
+            'admin-create' => ['username', 'email', 'password', 'repassword', 'status', 'auth_role'],
+            'admin-update' => ['username', 'email', 'password', 'repassword', 'status', 'auth_role'],
             'admin-change-password' => ['oldpassword', 'password', 'repassword'],
         ];
     }
@@ -151,8 +151,8 @@ class User extends \common\models\User
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord || (!$this->isNewRecord && $this->password)) {
                 $this->setPassword($this->password);
-                // $this->generateAuthKey();
-                // $this->generatePasswordResetToken();
+                $this->generateAuthKey();
+                $this->generatePasswordResetToken();
             }
             return true;
         }

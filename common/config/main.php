@@ -5,6 +5,14 @@ return [
     'timeZone' => 'Asia/Shanghai',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'user' => [
+            'class' => 'common\components\User',
+            'enableAutoLogin' => true,
+        ],
+        // 'authManager' => [
+        //     'class' => 'yii\rbac\DbManager',
+        //     //'defaultRoles' => ['guest'],
+        // ],
     	'i18n' => [
             'translations' => [
                 '*' => [

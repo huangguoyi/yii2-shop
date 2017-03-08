@@ -82,7 +82,7 @@ class UserController extends Controller
         //if(!Yii::$app->user->can('createUser')) throw new ForbiddenHttpException(Yii::t('app', 'No Auth'));
 
         $model = new User(['scenario' => 'admin-create']);
-     
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //Yii::$app->authManager->assign(Yii::$app->authManager->getRole($model->role), $model->id);
             return $this->redirect(['view', 'id' => $model->id]);
