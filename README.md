@@ -1,4 +1,4 @@
-Yii 2 Advanced Project Template
+本项目是基于Yii2.0框架搭建开发的开源电商的项目，由yison本人开发，对项目如有建议，欢迎在Issues提出
 ===============================
 
 Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
