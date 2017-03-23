@@ -26,6 +26,12 @@ AppAsset::register($this);
 <div class="wrap">
      <?= $this->render('//layouts/top-menu.php') ?>
     <div class="container">
+         <section class="content-header">
+                <h1><?= $this->title ?></h1>
+                <?= Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ]) ?>
+            </section>
         <?= Alert::widget() ?>
         <section class="content">
                 <?= $content ?>
